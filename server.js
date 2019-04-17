@@ -49,21 +49,20 @@ app.get('/weather', (request, response) => {
 })
 
 app.post('/weather', (request, response) => {
-    weather.getAddress(request.body.location, (error, results) => {
+    console.log("test")
+    weather.getAddress(request.body, (error, results) => {
         if (error) {
             console.log(error);
         } else {
-            weather.getTemperature(results.lat, results.long, (error, results) => {
-                if (error) {
-                    console.log(error);
-                } else {
-                    response.render('weather.hbs', {
-                        title: 'Weather',
-                        returned: true,
-                        icon: results.summary
-                    })
-                }
-            })
+            console.log(results.card)
+            response.render('weather.hbs', {
+                title: 'Cards',
+                card1: results.card,
+                card2: results.card2,
+                card3: results.card3,
+                card4: results.card4,
+                card5: results.card5,
+            });
         }
     })
 });

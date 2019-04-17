@@ -1,46 +1,31 @@
 const request = require('request')
 
+
+
 var getAddress = (address, callback) => {
     request({
-        url: 'https://maps.googleapis.com/maps/api/geocode/json' +
-            '?address=' + encodeURIComponent(address) +
-            '&key=AIzaSyC3x5fUBvh4lNEX4sL6WXGyebS6caZHz5g ',
+        url: 'https://deckofcardsapi.com/api/deck/new/draw/?count=5',
         json: true
     }, (error, response, body) => {
         if (error) {
             callback('Cannot connect to Google Maps')
         } else if (body.status === 'ZERO_RESULTS') {
             callback('Cannot find requested address')
-        } else if (body.status === 'OK') {
-            callback(undefined, {
-                lat: body.results[0].geometry.location.lat,
-                long: body.results[0].geometry.location.lng
-            });
-        }
-    });
-};
-
-
-var getTemperature = (lat, long, callback) => {
-    request({
-        url: 'https://api.darksky.net/forecast/ceb562b3eea286f47e789c742754520f/' + lat + ',' + long,
-        json: true
-    }, (error, response, body) => {
-        if (error) {
-            callback('Cannot connect to API')
-        } else if (body == 400) {
-            callback('The given location is invalid')
         } else {
             callback(undefined, {
-                lat: body.latitude,
-                long: body.longitude,
-                summary: body.currently.summary
+                card: body.cards[0].image,
+                card2: body.cards[1].image,
+                card3: body.cards[2].image,
+                card4: body.cards[3].image,
+                card5: body.cards[4].image
             });
         }
     });
 };
+
+
+
 
 module.exports = {
     getAddress,
-    getTemperature
 }
